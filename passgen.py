@@ -4,7 +4,7 @@ def passgen(wordcount, sep=''):
     with open('eff_large_wordlist.txt') as fil:
         words = fil.readlines()
     rand = SystemRandom()
-    words = [i.split() for i in words]
+    words = [i.split()[1] for i in words]
     nums = [[str(rand.randint(1,6)) for i in range(5)] for j in range(wordcount)]
     nums = [''.join(i) for i in nums]
     password = [None] * wordcount
