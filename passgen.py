@@ -1,17 +1,21 @@
 from random import SystemRandom
 
-def passgen(wordcount, seperator=''):
+def passgen(wordcount, sep=''):
     with open('eff_large_wordlist.txt') as fil:
         words = fil.readlines()
     rand = SystemRandom()
     words = [i.split() for i in words]
     nums = [[str(rand.randint(1,6)) for i in range(5)] for j in range(wordcount)]
-    nums = [seperator.join(i) for i in nums]
-    password = ''
-    #TODO: binary search
-    for i in nums:
-        for j in words:
-            if i == j[0]:
-                password += j[1]
-                break
-    return password
+    nums = [''.join(i) for i in nums]
+    password = [None] * wordcount
+    for i in range(wordcount):
+        password[i] = words[convtoindex(nums[i])]
+    return sep.join(password)
+
+def convtoindex(num):
+    digits = [int(i) for i in num]
+    ind = 0
+    for i in range(5):
+        ind += (digits[4-i] - 1) * 6**i
+    return ind
+    
